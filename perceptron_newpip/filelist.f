@@ -1,0 +1,17 @@
+./testbench/tb_perceptron.v
+./rtl/percep_top.v
+./rtl/percep_mem_ydx.v
+./rtl/percep_mem_wght.v
+./rtl/percep_fsm.v
+./rtl/percep_fp_mtply.v
+./rtl/percep_fp_add_new.v
+./rtl/percep_pipreg_prodnet.v
+./rtl/percep_pipreg_xw.v
+./rtl/comp_cmp16.v
+./rtl/lzd_lka16.v
+./rtl/lza16.v
+./rtl/sft_l_lofin.v
+./rtl/sft_r_lofin.v
+./rtl/adder_loprec16.v
+./rtl/adder_cla16.v
+./rtl/cla_ntwork4.v

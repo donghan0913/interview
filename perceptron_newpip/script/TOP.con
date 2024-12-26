@@ -1,0 +1,6 @@
+remove_sdc
+
+create_clock -period $PERIOD [get_ports clk]
+
+set_drive 1 {infer_ena d_txt_in}
+set_load [load_of slow/CLKBUFX20/A] [all_outputs]
