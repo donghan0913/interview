@@ -1,0 +1,1 @@
+vcs single_cycle_cpu_tb.v adder_32_bit.v alu.v alu_1_bit.v alu_controller.v data_mem.v fa.v instruction_mem.v jump_target.v lookahead_carry_generator_4bit.v main_controller.v multilevel_cla.v pc_add4.v pc_add_target.v pc_register.v register_file.v sign_extend.v single_cycle_cpu.v -full64 -R -debug_access+all +v2k +neg_tchk
