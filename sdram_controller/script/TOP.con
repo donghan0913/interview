@@ -1,0 +1,6 @@
+remove_sdc
+
+create_clock -period $PERIOD [get_ports sys_clk]
+
+set_drive 1 {uart_rx sdram_dq}
+set_load [load_of slow/CLKBUFX20/A] [all_outputs]

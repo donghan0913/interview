@@ -1,0 +1,13 @@
+./testbench/tb_top.v
+./rtl/sdr_parameters.vh
+./testbench/sdram_model.v
+./rtl/top.v
+./rtl/cmd_decode.v
+./rtl/fifo_sync.v
+./rtl/uart_rx.v
+./rtl/uart_tx.v
+./rtl/sdram_top.v
+./rtl/sdram_write.v
+./rtl/sdram_read.v
+./rtl/sdram_init.v
+./rtl/sdram_aref.v
