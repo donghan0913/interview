@@ -16,7 +16,28 @@
 
 
 ## Details
+* FSM:
 
+  <img src="https://github.com/user-attachments/assets/480ff6ca-8d5e-4fe2-995e-90ba92c71565" width="60%" height="60%">
+
+  * For different pipeline structures:
+
+
+* FMA Unit for single-cycle net computation structure
+  
+  <img src="https://github.com/user-attachments/assets/0311fa17-d23b-4bad-addd-7b864d3dfa78" width="30%" height="30%">
+
+* Floating-Point multiplier:
+
+  <img src="https://github.com/user-attachments/assets/dabebaa5-197f-4b3a-8e95-9804c6d5cd76" width="30%" height="30%">
+
+* Floating-Point adder with leading-zero detector[1]:
+
+  <img src="https://github.com/user-attachments/assets/2edb65c4-b393-4bda-9616-837c11a9c356" width="40%" height="40%">
+
+* Floating-Point adder with leading-zero anticipator[2]:
+
+  <img src="https://github.com/user-attachments/assets/2dbd7f2d-e486-426b-b04b-b385dfffd539" width="40%" height="40%">
 
 
 
@@ -36,5 +57,11 @@
 * 2-stage pipeline vs. 4-stage pipeline:
 
   <img src="https://github.com/user-attachments/assets/b41f7da6-32bf-4343-97dd-8ef9781fb81a" width="35%" height="35%">
+
+## Reference
+[1] Deb, S., & Chaudhury, S. (2012, November). High-speed comparator architectures for fast binary comparison. In 2012 Third International Conference on Emerging Applications of Information Technology (pp. 454-457). IEEE.
+
+[2] Bruguera, J. D., & Lang, T. (1999). Leading-one prediction with concurrent position correction. IEEE Transactions on Computers, 48(10), 1083-1097.
+
 
 
