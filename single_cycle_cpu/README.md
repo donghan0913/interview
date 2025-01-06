@@ -9,7 +9,7 @@
   add, sub, and, or, addi, andi, ori, lw, sw, beq, bne, j
   ```
 
-* Test data and address
+* Test data and their address
 
   <img src="https://github.com/user-attachments/assets/24cfe2d1-3121-4791-b400-51360d2ddc5d" width="40%" height="40%">
 
