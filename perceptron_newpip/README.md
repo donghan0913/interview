@@ -22,6 +22,9 @@
 
   * For different pipeline structures:
 
+* Different pipeline structures:
+
+  <img src="https://github.com/user-attachments/assets/7a2710e2-6531-4b23-b758-7a441a046bc3" width="40%" height="40%">
 
 * FMA Unit for single-cycle net computation structure
   
