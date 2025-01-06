@@ -1,5 +1,7 @@
 # 32-bit Single Cycle MIPS CPU
 ## Introduction
+* Overview: Use Verilog and Design Compiler to design a simple 32-bit Single-Cycle MIPS CPU from RTL to Synthesis
+
 * Block diagrm:
 
   <img src="https://github.com/user-attachments/assets/aed70956-0f8c-42c5-8242-2ac2c080d888" width="60%" height="60%">
