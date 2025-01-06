@@ -26,6 +26,9 @@
 
   <img src="https://github.com/user-attachments/assets/df6f93c5-28a0-47a3-8b2f-a7521548c51b" width="100%" height="100%">
 
+  * `ya` is actual label(output) calculated in design, `yd` is target label(output) of dataset.
+  * `check_y` equals to 0 indicates (ya == yd) for a inference data computation
+
 * Single-cycle vs. 2-stage pipeline: Including different floating-point fast arithmetic unit
   
   <img src="https://github.com/user-attachments/assets/d8c16f95-7557-4b6a-bed8-d38dab6471e4" width="75%" height="75%">
