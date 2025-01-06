@@ -1,6 +1,7 @@
 # 32-bit 5-Staged Pipeline MIPS CPU
 ## Introduction
-* Overview : Consrtruct 5-stage pipeline CPU with the same supported functions & test data as the single-cycle CPU project
+* Overview : Use Verilog and Design Compiler to design a simple 5-staged pipeline 32-bit Single-Cycle MIPS CPU from RTL to Synthesis
+  * Same supported functions & test data as the single-cycle CPU project
   * Solving data hazard & control hazard
 
 * Block diagram
