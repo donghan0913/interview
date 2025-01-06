@@ -11,7 +11,7 @@
 ## Simulation Result
 <img src="https://github.com/user-attachments/assets/2fb9090e-07d3-41a5-b208-03b903a6dc02" width="100%" height="100%">
 
-
+ * `pc_addr` is PC counter address, which can be used to check the answer.
 
 
 
