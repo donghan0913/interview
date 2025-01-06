@@ -19,4 +19,4 @@
 ## Simulation Result
 <img src="https://github.com/user-attachments/assets/de88ded4-e3e3-4a3c-957f-56b02909b4ea" width="100%" height="100%">
 
-
+  * `pc_addr` is PC counter address, which can be used to check the answer.
