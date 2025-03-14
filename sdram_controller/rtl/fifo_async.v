@@ -113,30 +113,7 @@ module fifo_async #(
 
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     // FIFO status
-/*    
-    reg     [PTR_SIZE:0]            status_cnt;             // inc/dec to determine FIFO status
-    
-    always @ (posedge clk, negedge rst_n) begin
-        if(~rst_n)      status_cnt <= 0;
-        else begin
-            if ((wr_en == 1) && (rd_en == 0) && (full == 0)) begin
-                if (status_cnt == DEPTH) begin
-                        status_cnt <= 0;
-                end            
-                else    status_cnt <= status_cnt + 1;
-            end
-            else if ((wr_en == 0) && (rd_en == 1) && (empty == 0)) begin
-                        status_cnt <= status_cnt - 1;
-            end
-            else        status_cnt <= status_cnt;
-        end
-    end
-*/
-
     //// empty and full    
-    //assign full = (status_cnt == DEPTH) ? 1 : 0;
-    //assign empty = (status_cnt == 0) ? 1 : 0;
-    
     reg     [PTR_SIZE:0]            wr_ptr_gry_t1;          // gray code write pointer
     reg     [PTR_SIZE:0]            rd_ptr_gry_t1;          // gray code read pointer
     reg     [PTR_SIZE:0]            wr_ptr_gry_t2;          // gray code write pointer
