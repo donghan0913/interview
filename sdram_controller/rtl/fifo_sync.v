@@ -50,11 +50,8 @@ module fifo_sync #(
     always @ (posedge clk, negedge rst_n) begin
         if (~rst_n)     wr_ptr <= 0;
         else begin
-            if (wr_en) begin
-                if (full == 0) begin
+            if ((wr_en == 1) && (full == 0)) begin
                         wr_ptr <= wr_ptr + 1;
-                end
-                else    wr_ptr <= wr_ptr;
             end
             else        wr_ptr <= wr_ptr;
         end
@@ -63,11 +60,8 @@ module fifo_sync #(
     always @ (posedge clk, negedge rst_n) begin
         if (~rst_n)     rd_ptr <= 0;
         else begin
-            if (rd_en) begin
-                if (empty == 0) begin
+            if ((rd_en == 1) && (empty == 0)) begin
                         rd_ptr <= rd_ptr + 1;
-                end
-                else    rd_ptr <= rd_ptr;
             end
             else        rd_ptr <= rd_ptr;
         end
