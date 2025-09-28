@@ -11,12 +11,6 @@
     * <↑, 1/0> , <↓, 1/0> : Aggressor cell at 6’b010_001 ; Victim cell at 6’b010_010
     * <↑, 0/1> , <↓, 0/1> : Aggressor cell at 6’b000_110 ; Victim cell at 6’b000_111
 
-
-* Low power LFSR design[1]:
-
-  <img src="https://github.com/user-attachments/assets/526f4f79-db71-4802-9b8a-cb14c96a679d" width="100%" height="100%">
-
-
 ## Simulation Result
 * Checkerboard:
   * Concept:
@@ -31,23 +25,32 @@
 * March X:
   * Concept:
 
-    <img src="https://github.com/user-attachments/assets/4732099a-4627-4424-86f6-767dd547768c" width="25%" height="25%">
-
-    
+    <img src="https://github.com/user-attachments/assets/4732099a-4627-4424-86f6-767dd547768c" width="30%" height="30%">
+    <br />
+    <img src="https://github.com/user-attachments/assets/df1506fe-b60a-40f3-91d3-06f8a3a2a673" width="20%" height="20%">
 
   * Simulation result:
 
     <img src="https://github.com/user-attachments/assets/e5e81c6b-9f54-4e47-8f96-5ef0d89942de" width="100%" height="100%">
-    <img src="https://github.com/user-attachments/assets/12a80827-37f5-47da-a6eb-6236a9f37a3a" width="30%" height="30%"> <img src="https://github.com/user-attachments/assets/df1506fe-b60a-40f3-91d3-06f8a3a2a673" width="20%" height="20%">
-
+    <img src="https://github.com/user-attachments/assets/12a80827-37f5-47da-a6eb-6236a9f37a3a" width="30%" height="30%">
 
 * March C-:
+  * Concept:
 
-  <img src="https://github.com/user-attachments/assets/5fb9de69-e599-4397-bb92-b91f19608ef5" width="100%" height="100%">
-  <img src="https://github.com/user-attachments/assets/44375036-35a0-475b-9c1e-3d0d75cec0ce" width="30%" height="30%">
+    <img src="https://github.com/user-attachments/assets/42b25500-5b0e-41ee-b6f3-1786003a8362" width="50%" height="50%">
+    <br />
+    <img src="https://github.com/user-attachments/assets/7b0300e9-770f-4ffd-90f7-af41340737a8" width="20%" height="20%">
+
+  * Simulation result:
+
+    <img src="https://github.com/user-attachments/assets/5fb9de69-e599-4397-bb92-b91f19608ef5" width="100%" height="100%">
+    <img src="https://github.com/user-attachments/assets/44375036-35a0-475b-9c1e-3d0d75cec0ce" width="30%" height="30%">
 
 
 ## Low Power Design
+* Low power LFSR design[1]:
+
+  <img src="https://github.com/user-attachments/assets/526f4f79-db71-4802-9b8a-cb14c96a679d" width="100%" height="100%">
 
 * Low power LFSR address generator MBIST:
   * Address generation:
@@ -66,8 +69,9 @@
 
 * Result comparison:
 
-  <img src="https://github.com/user-attachments/assets/0770924b-acca-4849-a172-cf6e23d832fe" width="50%" height="50%">
-
+  <img src="https://github.com/user-attachments/assets/0770924b-acca-4849-a172-cf6e23d832fe" width="50%" height="50%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/user-attachments/assets/063809cc-644a-4093-83be-79b1016b17fa" width="40%" height="40%">
+  <br />
+  <br />
   <img src="https://github.com/user-attachments/assets/bd682566-0c50-4721-990c-f7dbd2bbf8cf" width="60%" height="60%">
 
 
