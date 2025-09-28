@@ -48,7 +48,7 @@
 
 
 ## Low Power Design
-* Low power LFSR design[1]:
+* Concept: Replace binary counter with low power clock controlled LFSR[1] for address generator.
 
   <img src="https://github.com/user-attachments/assets/526f4f79-db71-4802-9b8a-cb14c96a679d" width="100%" height="100%">
 
@@ -67,7 +67,7 @@
 
     <img src="https://github.com/user-attachments/assets/5a8c65f3-5dc3-43a1-9c89-b2c9894d8f2a" width="100%" height="100%">
 
-* Result comparison:
+## Result comparison
 
   <img src="https://github.com/user-attachments/assets/0770924b-acca-4849-a172-cf6e23d832fe" width="50%" height="50%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/user-attachments/assets/063809cc-644a-4093-83be-79b1016b17fa" width="40%" height="40%">
   <br />
