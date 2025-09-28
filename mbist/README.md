@@ -36,9 +36,9 @@
     
 
   * Simulation result:
+
     <img src="https://github.com/user-attachments/assets/e5e81c6b-9f54-4e47-8f96-5ef0d89942de" width="100%" height="100%">
-    <img src="https://github.com/user-attachments/assets/12a80827-37f5-47da-a6eb-6236a9f37a3a" width="30%" height="30%">
-    <img src="https://github.com/user-attachments/assets/df1506fe-b60a-40f3-91d3-06f8a3a2a673" width="20%" height="20%">
+    <img src="https://github.com/user-attachments/assets/12a80827-37f5-47da-a6eb-6236a9f37a3a" width="30%" height="30%"> <img src="https://github.com/user-attachments/assets/df1506fe-b60a-40f3-91d3-06f8a3a2a673" width="20%" height="20%">
 
 
 * March C-:
