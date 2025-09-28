@@ -2,7 +2,7 @@
 ## Introduction
 * Overview: Use Verilog and Design Compiler to design a simple SDRAM controller with UART interface including Initialize, Auto-Refresh, Read and Write functions from RTL to Synthesis.
 
-  <img src="https://github.com/user-attachments/assets/3a8741f7-a94c-434c-b489-345364126e36" width="45%" height="45%">$\qquad$<img src="https://github.com/user-attachments/assets/c7ef3e35-58b6-4b71-80a8-9505870314de" width="35%" height="35%">
+  <img src="https://github.com/user-attachments/assets/b82b129f-8d2f-458c-b5b3-9959a897dedb" width="100%" height="100%">
 
   * Modules:
     1. SDRAM Model: Micron 32 Meg x 4 x16 SDRAM
