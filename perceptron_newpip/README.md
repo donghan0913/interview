@@ -53,13 +53,12 @@
   * `ya` is actual label(output) calculated in design, `yd` is target label(output) of dataset.
   * `check_y` equals to 0 indicates (ya == yd) for a inference data computation
 
-* Single-cycle vs. 2-stage pipeline: Including different floating-point fast arithmetic unit
-  
-  <img src="https://github.com/user-attachments/assets/d8c16f95-7557-4b6a-bed8-d38dab6471e4" width="75%" height="75%">
+* Comparison
 
-* 2-stage pipeline vs. 4-stage pipeline:
+  <img src="https://github.com/user-attachments/assets/4f04ab5e-4eea-4604-9f8f-022abaf6f577" width="80%" height="80%">
 
-  <img src="https://github.com/user-attachments/assets/b41f7da6-32bf-4343-97dd-8ef9781fb81a" width="35%" height="35%">
+  * 4-stage pipeline with LZA structure helps the circuit achieve a 217% speed improvement and a 21% reduction in total operation time compare to single-cycle FP adder + FP multiplier structure.
+
 
 ## Reference
 [1] Deb, S., & Chaudhury, S. (2012, November). High-speed comparator architectures for fast binary comparison. In 2012 Third International Conference on Emerging Applications of Information Technology (pp. 454-457). IEEE.
