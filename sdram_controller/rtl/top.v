@@ -12,6 +12,8 @@
  **************************************************************/
 `timescale 1ns / 100ps
 
+`define AFIFO
+
 
 module top #(
     parameter CLK_FREQ = 133_000_000,                       // reciever part system clock frequency
@@ -108,6 +110,23 @@ module top #(
         .wfifo_data(wfifo_wr_data)
         );
     
+`ifdef AFIFO
+    fifo_async #(
+        .WIDTH(D_WIDTH_UART),
+        .DEPTH(FIFO_DEPTH),
+        .PTR_SIZE(FIFO_PTR_SIZE)
+    ) inst_wfifo_16x8(
+        .clk_a(sys_clk),
+        .clk_b(sys_clk),
+        .rst_n(sys_rst_n),
+        .wr_en(wfifo_wr_en),
+        .rd_en(wfifo_rd_en),
+        .wr_data(wfifo_wr_data),
+        .rd_data(wfifo_rd_data),
+        .full(wfifo_full),
+        .empty(wfifo_empty)
+        );
+`else    
     fifo_sync #(
         .WIDTH(D_WIDTH_UART),
         .DEPTH(FIFO_DEPTH),
@@ -122,6 +141,7 @@ module top #(
         .full(wfifo_full),
         .empty(wfifo_empty)
         );
+`endif
 
     uart_tx #(
         .CLK_FREQ(CLK_FREQ),
@@ -138,6 +158,23 @@ module top #(
         .rfifo_rd_en(rfifo_rd_en)
         );
 
+`ifdef AFIFO
+    fifo_async #(
+        .WIDTH(D_WIDTH_UART),
+        .DEPTH(FIFO_DEPTH),
+        .PTR_SIZE(FIFO_PTR_SIZE)
+    ) inst_rfifo_16x8(
+        .clk_a(sdram_clk),
+        .clk_b(sys_clk),
+        .rst_n(sys_rst_n),
+        .wr_en(rfifo_wr_en),
+        .rd_en(rfifo_rd_en),
+        .wr_data(rfifo_wr_data),
+        .rd_data(rfifo_rd_data),
+        .full(rfifo_full),
+        .empty(rfifo_empty)
+        );
+`else
     fifo_sync #(
         .WIDTH(D_WIDTH_UART),
         .DEPTH(FIFO_DEPTH),
@@ -152,6 +189,7 @@ module top #(
         .full(rfifo_full),
         .empty(rfifo_empty)
         );    
+`endif
     
     sdram_top inst_sdram_ctr_top(
         .sys_clk(sys_clk),
