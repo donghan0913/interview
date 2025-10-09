@@ -13,8 +13,8 @@
 
 
 module sdram_aref(
-    sys_clk,
-    sys_rst_n,
+    sdram_clk,
+    rst_n,
     aref_en,
     init_done,
     aref_req,
@@ -22,9 +22,8 @@ module sdram_aref(
     aref_cmd,
     sdram_addr
     );
-
-    `include "/home/m110/m110063556/interview/sdram_controller/rtl/sdr_parameters.vh"
-    //`include "sdr_parameters.vh"
+    
+    `include "sdr_parameters.vh"
     
     localparam  NOP = 4'b0111;                              // NOP command
     localparam  PRE = 4'b0010;                              // PRECHARGE command
@@ -33,8 +32,8 @@ module sdram_aref(
     localparam T_RP = 3;                                    // 3 cycle for tRP = 20.0 ns
     localparam T_RFC = 9;                                   // 9 cycle for tRFC = 66.0 ns
     
-    input                           sys_clk;                // system clock
-    input                           sys_rst_n;              // system negative triggered reset
+    input                           sdram_clk;              // system clock
+    input                           rst_n;                  // system negative triggered reset
     input                           aref_en;                // AUTO-REFRESH enable
     input                           init_done;              // indicate INITIALIZE done
     output                          aref_req;               // request to arbiter module, after 15us count done, and pull-up after until next "aref_en"
@@ -44,11 +43,11 @@ module sdram_aref(
     
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     // count 15us to request next AUTO-REFRESH command
-    localparam DELAY_15us = 2000;                           // 2000 cycles for 15us for AURO-REFRESH
+    localparam DELAY_15us = 2000;                           // 2000 cycles for 15us for AURO-REFRESH (0x7d0)
     reg     [12:0]                   aref_cnt;              // count 15us to send next AUTO-REFRESH reqire
     
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) aref_cnt <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) aref_cnt <= 0;
         else begin
             if ((init_done == 1) && (aref_cnt != DELAY_15us)) begin
                         aref_cnt <= aref_cnt + 1;
@@ -63,8 +62,8 @@ module sdram_aref(
     reg     [4:0]                   cmd_cnt;                // count initialize latency cycles required start from precharge
     reg     [3:0]                   cmd_reg_reg;            // mode register: {CS_n, RAS_n, CAS_n, WE_n}
     
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) aref_flag <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) aref_flag <= 0;
         else begin
             if (aref_en) begin
                         aref_flag <= 1;
@@ -76,8 +75,8 @@ module sdram_aref(
         end
     end
     
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) cmd_cnt <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) cmd_cnt <= 0;
         else begin
             if (aref_flag) begin
                         cmd_cnt <= cmd_cnt + 1;
