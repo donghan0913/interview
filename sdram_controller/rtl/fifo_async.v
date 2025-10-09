@@ -107,13 +107,12 @@ module fifo_async #(
         if ((rd_en == 1) && (empty == 0)) begin
                         rd_data_reg <= fifo[rd_ptr_bin[2:0]];
         end
-        else            rd_data_reg <= {WIDTH{1'bz}};
+        else            rd_data_reg <= {WIDTH{1'b0/*1'bz*/}};
     end
     assign rd_data = rd_data_reg;
 
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
-    // FIFO status
-    //// empty and full    
+    // FIFO status    
     reg     [PTR_SIZE:0]            wr_ptr_gry_t1;          // gray code write pointer
     reg     [PTR_SIZE:0]            rd_ptr_gry_t1;          // gray code read pointer
     reg     [PTR_SIZE:0]            wr_ptr_gry_t2;          // gray code write pointer
