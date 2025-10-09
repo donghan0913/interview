@@ -2,8 +2,9 @@
 ./rtl/sdr_parameters.vh
 ./testbench/sdram_model.v
 ./rtl/top.v
+./rtl/rst_synchronizer.v
 ./rtl/cmd_decode.v
-./rtl/fifo_sync.v
+./rtl/fifo_async.v
 ./rtl/uart_rx.v
 ./rtl/uart_tx.v
 ./rtl/sdram_top.v
