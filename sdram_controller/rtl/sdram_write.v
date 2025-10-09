@@ -13,8 +13,8 @@
 
 
 module sdram_write(
-    sys_clk,
-    sys_rst_n,
+    sdram_clk,
+    rst_n,
     wr_trig,
     aref_req,
     wr_en,
@@ -30,11 +30,11 @@ module sdram_write(
     wfifo_rd_en
     );
     
-	`include "/home/m110/m110063556/interview/sdram_controller/rtl/sdr_parameters.vh"
-    //`include "sdr_parameters.vh"    
+	//`include "/home/m110/m110063556/interview/sdram_controller/rtl/sdr_parameters.vh"
+    `include "sdr_parameters.vh"    
     
-    input                           sys_clk;                // system clock
-    input                           sys_rst_n;              // system negative triggered reset    
+    input                           sdram_clk;              // use sdram clock
+    input                           rst_n;                  // system negative triggered reset    
     input                           wr_trig;                // write trigger
     input                           aref_req;               // refresh request from refresh block
     input                           wr_en;                  // write enable
@@ -73,8 +73,8 @@ module sdram_write(
     reg     [2:0]               state;                      // current state of FSM
     reg     [2:0]               n_state;                    // next state of FSM
     
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) state <= WR_IDLE;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) state <= WR_IDLE;
         else            state <= n_state;
     end    
     
@@ -137,8 +137,8 @@ module sdram_write(
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Other Internal Logic
     //// ACT signals
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) act_cnt <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) act_cnt <= 0;
         else begin
             if (state == WR_ACT) begin
                         act_cnt <= act_cnt + 1;
@@ -155,8 +155,8 @@ module sdram_write(
     end
     
     //// PRE signals
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) break_cnt <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) break_cnt <= 0;
         else begin
             if (state == WR_PRE) begin
                         break_cnt <= break_cnt + 1;
@@ -173,8 +173,8 @@ module sdram_write(
     end
     
     //// burst signals
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) burst_cnt <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) burst_cnt <= 0;
         else begin
             if (twr_cnt != 0) begin
                         burst_cnt <= 0;
@@ -194,8 +194,8 @@ module sdram_write(
     end
     
     //// column signals
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) col_cnt <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) col_cnt <= 0;
         else begin
             if (burst_cnt == 3) begin
                 if (addr_col == COL_ADDR_MAX) begin
@@ -217,8 +217,8 @@ module sdram_write(
     assign addr_col = {col_cnt, burst_cnt};
 
     //// row signals
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) row_cnt <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) row_cnt <= 0;
         else begin
             if (state == WR_IDLE) begin
                         row_cnt <= 0;
@@ -230,8 +230,8 @@ module sdram_write(
         end
     end
     
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) row_done <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) row_done <= 0;
         else begin
             if ((addr_col == COL_ADDR_MAX) && (row_cnt == row_max)) begin
                         row_done <= 1;
@@ -245,8 +245,8 @@ module sdram_write(
    
     assign row_max = ROW_MAX;
     
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) addr_row <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) addr_row <= 0;
         else begin
             if (state == WR_REQ) begin
                         addr_row <= wr_addr;
@@ -256,8 +256,8 @@ module sdram_write(
     end
     
     //// twr signals
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) twr_cnt <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) twr_cnt <= 0;
         else begin
             if ((col_done == 1) || ((aref_req_t == 1) && (burst_cnt == 3))) begin
                         twr_cnt <= twr_cnt + 1;
@@ -277,8 +277,8 @@ module sdram_write(
     end
     
     //// aref handling
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) aref_req_t <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) aref_req_t <= 0;
         else begin
             if (aref_req == 1) begin
                         aref_req_t <= 1;
@@ -292,8 +292,8 @@ module sdram_write(
     
     //// others
     reg                         row_done_t;                 // indicate row count finish with one more cycle delay
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) row_done_t <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) row_done_t <= 0;
         else if (row_done == 1) begin
                         row_done_t <= 1;
         end
@@ -303,8 +303,8 @@ module sdram_write(
         else            row_done_t <= 0;
     end
 
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) wr_flag <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) wr_flag <= 0;
         else begin
             if ((wr_trig == 1) && (wr_flag == 0)) begin
                         wr_flag <= 1;
@@ -373,8 +373,8 @@ module sdram_write(
         else        wr_done_all_reg = 0;
     end
     
-     always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) go_aref_reg <= 0;
+     always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) go_aref_reg <= 0;
         else begin
             if ((twr_done == 1) && (burst_done == 1) && (aref_req_t == 1)) begin
                         go_aref_reg <= 1;
