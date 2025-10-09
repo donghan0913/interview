@@ -7,7 +7,7 @@
  *    3. Connect with SDRAM and user logic (testbench)
  *
  * Descriptions:
- *    1.
+ *    1. Need to use sdram_clk
  *
  * Author: Jason Wu, master's student, NTHU
  *
@@ -17,11 +17,10 @@
 
 
 module sdram_top(
-    sys_clk,
-    sys_rst_n,
+    sdram_clk,
+    rst_n,
     wr_trig,
     rd_trig,
-    sdram_clk,
     sdram_cke,
     sdram_cs_n,
     sdram_cas_n,
@@ -40,14 +39,13 @@ module sdram_top(
     rfifo_wr_en
     );
     
-	`include "/home/m110/m110063556/interview/sdram_controller/rtl/sdr_parameters.vh"
-    //`include "sdr_parameters.vh"
+    //`include "/home/m110/m110063556/interview/sdram_controller/rtl/sdr_parameters.vh"
+    `include "sdr_parameters.vh"
 
-    input                           sys_clk;                // system clock
-    input                           sys_rst_n;              // system negative triggered reset
+    input                           sdram_clk;              // use SDRAM clock
+    input                           rst_n;                  // use system negative triggered reset, thus need reset synchronizer
     input                           wr_trig;                // WRITE operation trigger
     input                           rd_trig;                // READ operation trigger
-    output                          sdram_clk;              // SDRAM clock
     output                          sdram_cke;              // SDRAM clock enable
     output                          sdram_cs_n;             // SDRAM negative trigger chip select
     output                          sdram_cas_n;            // SDRAM negative trigger column address enable
@@ -73,8 +71,8 @@ module sdram_top(
     wire    [ADDR_BITS-1:0]         init_addr;              // SDRAM address depends on initialization
     wire                            init_done;
     sdram_init inst_sdram_init(
-        .sys_clk(sys_clk),
-        .sys_rst_n(sys_rst_n),
+        .sdram_clk(sdram_clk),
+        .rst_n(rst_n),
         .cmd_reg(init_cmd),
         .sdram_addr(init_addr),
         .init_done(init_done)
@@ -87,8 +85,8 @@ module sdram_top(
     wire    [3:0]                   aref_cmd;
     wire    [ADDR_BITS-1:0]         aref_addr;              // SDRAM address depends on auto-refresh
     sdram_aref inst_sdram_aref(
-        .sys_clk(sys_clk),
-        .sys_rst_n(sys_rst_n),
+        .sdram_clk(sdram_clk),
+        .rst_n(rst_n),
         .aref_en(aref_en),
         .init_done(init_done),
         .aref_req(aref_req),
@@ -108,8 +106,8 @@ module sdram_top(
     wire                            wr_go_aref;             // finish a burst write and go to AUTO-REFRESH for aref_req
     wire                            wr_done_all;            // indicate all write operation finish
     sdram_write inst_sdram_write(
-        .sys_clk(sys_clk),
-        .sys_rst_n(sys_rst_n),
+        .sdram_clk(sdram_clk),
+        .rst_n(rst_n),
         .wr_trig(wr_trig),
         .aref_req(aref_req),
         .wr_en(wr_en),
@@ -135,8 +133,8 @@ module sdram_top(
     wire                            rd_go_aref;             // finish a burst read and go to AUTO-REFRESH for aref_req
     wire                            rd_done_all;            // indicate READ done
     sdram_read inst_sdram_read(
-        .sys_clk(sys_clk),
-        .sys_rst_n(sys_rst_n),
+        .sdram_clk(sdram_clk),
+        .rst_n(rst_n),
         .rd_trig(rd_trig),
         .aref_req(aref_req),
         .rd_en(rd_en),
@@ -162,8 +160,8 @@ module sdram_top(
     reg     [2:0]               state;                      // current state of FSM
     reg     [2:0]               n_state;                    // next state of FSM
     
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) state <= IDLE;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) state <= IDLE;
         else            state <= n_state;
     end    
     
@@ -191,8 +189,8 @@ module sdram_top(
     reg                             write_en_reg;           // WRITE enable
     reg                             aref_req_t;             // request from AUTO-REFRESH function
     
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) aref_en_reg <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) aref_en_reg <= 0;
         else begin
             if ((state == ARBIT) && (aref_req_t == 1)) begin
                         aref_en_reg <= 1;
@@ -201,8 +199,8 @@ module sdram_top(
         end
     end
 
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) write_en_reg <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) write_en_reg <= 0;
         else begin
             if ((state == ARBIT) && (aref_req_t == 0) && (wr_req == 1)) begin
                         write_en_reg <= 1;
@@ -211,8 +209,8 @@ module sdram_top(
         end
     end
 
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) read_en_reg <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) read_en_reg <= 0;
         else begin
             if ((state == ARBIT) && (aref_req_t == 0) && (wr_en == 0) && (rd_req == 1)) begin
                         read_en_reg <= 1;
@@ -226,8 +224,8 @@ module sdram_top(
     assign rd_en = read_en_reg;
 
     //// aref_req wait
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) aref_req_t <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) aref_req_t <= 0;
         else begin
             if (aref_req == 1) begin
                         aref_req_t <= 1;
@@ -243,7 +241,11 @@ module sdram_top(
     // set SDRAM output signals, and generate SDRAM clock with inverted and same frequency to better sampling signal
     localparam  CMD_NOP = 4'b0111;                          // NOP command
     reg     [3:0]                   sdram_cmd;
-    reg     [ADDR_BITS-1:0]         sdram_addr_reg;         // SDRAM address depends on initialization
+    reg     [ADDR_BITS-1:0]         sdram_addr_reg;         // SDRAM address depends on initialization    
+    reg     [ADDR_BITS-1:0]         sdram_addr_reg2;
+    reg     [3:0]                   sdram_cmd_reg;
+    reg     [BA_BITS-1:0]           sdram_bank_reg;
+    reg     [DQ_BITS-1:0]           sdram_dq_reg;
     
     always @(*) begin
         if (~init_done)     sdram_cmd = init_cmd;
@@ -268,14 +270,33 @@ module sdram_top(
             endcase
         end
     end
+
+    always @(negedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) sdram_addr_reg2 <= 0;
+        else        sdram_addr_reg2 <= sdram_addr_reg;
+    end
     
-    assign sdram_clk = ~sys_clk;
-    assign sdram_addr = sdram_addr_reg;
+    always @(negedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) sdram_cmd_reg <= CMD_NOP;
+        else        sdram_cmd_reg <= sdram_cmd;
+    end
+    
+    always @(negedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) sdram_bank_reg <= 0;
+        else        sdram_bank_reg <= (state == WRITE) ? wr_ba_out : rd_ba_out;
+    end
+    
+    always @(negedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) sdram_dq_reg <= 0;
+        else        sdram_dq_reg <= (state == WRITE) ? wr_data_out : {16{1'bz}};
+    end
+
+    assign sdram_addr = sdram_addr_reg2;
     assign sdram_cke = 1;
-    assign {sdram_cs_n, sdram_ras_n, sdram_cas_n, sdram_we_n} = sdram_cmd;
+    assign {sdram_cs_n, sdram_ras_n, sdram_cas_n, sdram_we_n} = sdram_cmd_reg;
     assign sdram_dqm = 2'b00;
-    assign sdram_bank = (state == WRITE) ? wr_ba_out : rd_ba_out;
-    assign sdram_dq = (state == WRITE) ? wr_data_out : {16{1'bz}};
+    assign sdram_bank = sdram_bank_reg;
+    assign sdram_dq = sdram_dq_reg;
     assign aref_done_out = aref_done;
 
 endmodule
