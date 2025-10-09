@@ -23,29 +23,29 @@
 
 
 module sdram_init (
-    sys_clk,
-    sys_rst_n,
+    sdram_clk,
+    rst_n,
     cmd_reg,
     sdram_addr,
     init_done
     );
-   
-	`include "/home/m110/m110063556/interview/sdram_controller/rtl/sdr_parameters.vh" 
-    //`include "sdr_parameters.vh"
+    
+    //`include "/home/m110/m110063556/interview/sdram_controller/rtl/sdr_parameters.vh"
+    `include "sdr_parameters.vh"
     
     localparam WAIT100 = 13333;                             // wait 100us after power-up, count 13333(0x3415) times for system clock
     localparam WAIT100_WIDTH = 15;                          // 15-bit to count 13333
     localparam T_RP = 3;                                    // 3 cycle for tRP = 20.0 ns
     localparam T_RFC = 9;                                   // 9 cycle for tRFC = 66.0 ns
-    localparam T_MRD = 2;                                   // 2 cycle for tMRD
+    localparam T_MRD = 2;                                   // 2 cycle for tMRD, fixed to 2 cycle no matter what frequency sdram_clk is
     
     localparam  NOP = 4'b0111;                              // NOP command
     localparam  PRE = 4'b0010;                              // PRECHARGE command
     localparam  AREF = 4'b0001;                             // AUTO-REFRESH command
     localparam  LMR = 4'b0000;                              // LOAD MODE REGISTER command
     
-    input                           sys_clk;                // system clock
-    input                           sys_rst_n;              // system negative triggered reset 
+    input                           sdram_clk;              // use sdram clock
+    input                           rst_n;                  // use system negative triggered reset 
     output  [3:0]                   cmd_reg;                // mode register: {CS_n, RAS_n, CAS_n, WE_n}
     output  [ADDR_BITS-1:0]         sdram_addr;             // sdram address, A11 ~A0
     output                          init_done;              // indicate SDRAM initialization done
@@ -56,8 +56,8 @@ module sdram_init (
     reg     [WAIT100_WIDTH-1:0]     pup_cnt;                // count 100us after power-up
     wire                            pup_done;               // indicate 100us wait is done
     
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n)     pup_cnt <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n)     pup_cnt <= 0;
         else begin
             if (~pup_done)  pup_cnt <= pup_cnt + 1;
             else            pup_cnt <= pup_cnt;
@@ -76,8 +76,8 @@ module sdram_init (
     reg     [5:0]                   cmd_cnt;                // count initialize latency cycles required start from precharge
     reg     [3:0]                   cmd_reg_reg;            // mode register: {CS_n, RAS_n, CAS_n, WE_n}
     
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) cmd_cnt <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) cmd_cnt <= 0;
         else begin
             if ((pup_done == 1) && (init_done == 0)) begin
                         cmd_cnt <= cmd_cnt + 1;
