@@ -1,5 +1,5 @@
 /**************************************************************
- * Module name: uart_rx
+ * Module name: uart_tx
  *
  * Features:
  *	1. UART TX part
@@ -18,7 +18,7 @@
 
 
 module uart_tx #(
-    parameter CLK_FREQ = 133_000_000,                       // transmitter part system clock frequency
+    parameter CLK_FREQ = 200_000_000,                       // transmitter part system clock frequency
     parameter BAUD_RATE = 9600,                             // baud rate
     parameter D_WIDTH = 8                                   // width of data frame
 ) (
@@ -38,7 +38,7 @@ module uart_tx #(
     localparam BAUD_CNT_MAX = 10 - 1;                       // for baud_cnt to count, simulation only
     localparam BAUD_CNT_MID = BAUD_CNT_MAX / 2;             // for baud_cnt to count middle, simulation only
 `else
-    localparam BAUD_CNT_MAX = (CLK_FREQ / BAUD_RATE) - 1;   // for baud_cnt to count, which is (13855 - 1) in here
+    localparam BAUD_CNT_MAX = (CLK_FREQ / BAUD_RATE) - 1;   // for baud_cnt to count, which is (20833 - 1) in here (0x5160)
     localparam BAUD_CNT_MID = BAUD_CNT_MAX / 2;             // for baud_cnt to count middle
 `endif
     localparam BAUD_CNT_WIDTH = 15;                         // baud_cnt width
@@ -66,7 +66,7 @@ module uart_tx #(
     reg     [D_WIDTH:0]             bit_cnt;                // data frame counter
     wire                            bit_flag;               // indicate when to start bit_cnt and when can capture data
     reg                             rfifo_rd_en_reg;
-    reg                             tx_trig;
+    reg                             tx_trig;                // indicate UART_TX start 
     
     always @(posedge sys_clk) begin
                             tx_trig <= rfifo_rd_en;
