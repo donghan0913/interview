@@ -13,8 +13,8 @@
 
 
 module sdram_read(
-    sys_clk,
-    sys_rst_n,
+    sdram_clk,
+    rst_n,
     rd_trig,
     aref_req,
     rd_en,
@@ -30,11 +30,11 @@ module sdram_read(
     data_out
     );
 
-	`include "/home/m110/m110063556/interview/sdram_controller/rtl/sdr_parameters.vh"
-    //`include "sdr_parameters.vh"    
+	//`include "/home/m110/m110063556/interview/sdram_controller/rtl/sdr_parameters.vh"
+    `include "sdr_parameters.vh"    
     
-    input                           sys_clk;                // system clock
-    input                           sys_rst_n;              // system negative triggered reset    
+    input                           sdram_clk;                // system clock
+    input                           rst_n;              // system negative triggered reset    
     input                           rd_trig;                // rerad trigger
     input                           aref_req;               // refresh request from refresh block
     input                           rd_en;                  // read enable
@@ -74,8 +74,8 @@ module sdram_read(
     reg     [2:0]               state;                      // current state of FSM
     reg     [2:0]               n_state;                    // next state of FSM
     
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) state <= RD_IDLE;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) state <= RD_IDLE;
         else            state <= n_state;
     end    
     
@@ -134,8 +134,8 @@ module sdram_read(
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Other Internal Logic
     //// ACT signals
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) act_cnt <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) act_cnt <= 0;
         else begin
             if (state == RD_ACT) begin
                         act_cnt <= act_cnt + 1;
@@ -152,8 +152,8 @@ module sdram_read(
     end
     
     //// PRE signals
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) break_cnt <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) break_cnt <= 0;
         else begin
             if (state == RD_PRE) begin
                         break_cnt <= break_cnt + 1;
@@ -170,8 +170,8 @@ module sdram_read(
     end
     
     //// burst signals
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) burst_cnt <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) burst_cnt <= 0;
         else begin
             if (state == RD_READ) begin
                         burst_cnt <= burst_cnt + 1;
@@ -188,8 +188,8 @@ module sdram_read(
     end
     
     //// column signals
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) col_cnt <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) col_cnt <= 0;
         else begin
             if (burst_cnt == 3) begin
                 if (addr_col == COL_ADDR_MAX) begin
@@ -211,8 +211,8 @@ module sdram_read(
     assign addr_col = {col_cnt, burst_cnt};
 
     //// row signals
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) row_cnt <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) row_cnt <= 0;
         else begin
             if (state == RD_IDLE) begin
                         row_cnt <= 0;
@@ -224,8 +224,8 @@ module sdram_read(
         end
     end
     
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) row_done <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) row_done <= 0;
         else begin
             if ((addr_col == COL_ADDR_MAX) && (row_cnt == row_max)) begin
                         row_done <= 1;
@@ -236,8 +236,8 @@ module sdram_read(
    
     assign row_max = ROW_MAX;
     
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) addr_row <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) addr_row <= 0;
         else begin
             if (state == RD_REQ) begin
                         addr_row <= rd_addr;
@@ -247,8 +247,8 @@ module sdram_read(
     end
     
     //// aref handling
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) aref_req_t <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) aref_req_t <= 0;
         else begin
             if (aref_req == 1) begin
                         aref_req_t <= 1;
@@ -262,8 +262,8 @@ module sdram_read(
     
     //// others
     reg                         row_done_t;                 // indicate row count finish with one more cycle delay
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) row_done_t <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) row_done_t <= 0;
         else if (row_done == 1) begin
                         row_done_t <= 1;
         end
@@ -273,8 +273,8 @@ module sdram_read(
         else            row_done_t <= 0;
     end
     
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) rd_flag <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) rd_flag <= 0;
         else begin
             if ((rd_trig == 1) && (rd_flag == 0)) begin
                         rd_flag <= 1;
@@ -339,8 +339,8 @@ module sdram_read(
         else        rd_done_all_reg = 0;
     end
     
-    always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) go_aref_reg <= 0;
+    always @(posedge sdram_clk, negedge rst_n) begin
+        if (~rst_n) go_aref_reg <= 0;
         else begin
             if ((burst_done == 1) && (aref_req_t == 1)) begin
                         go_aref_reg <= 1;
@@ -357,7 +357,7 @@ module sdram_read(
     end
     
     // delay CAS latency to let rFIFO catch data
-    always @(posedge sys_clk) begin
+    always @(posedge sdram_clk) begin
                         rfifo_wr_en_reg_t1 <= rfifo_wr_en_reg;
                         rfifo_wr_en_reg_t2 <= rfifo_wr_en_reg_t1;
                         rfifo_wr_en_reg_t3 <= rfifo_wr_en_reg_t2;
