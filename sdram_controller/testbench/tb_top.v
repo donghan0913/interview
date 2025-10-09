@@ -19,28 +19,27 @@
 
 module tb_top;
 
-    `include "/home/m110/m110063556/interview/sdram_controller/rtl/sdr_parameters.vh"
-	//`include "sdr_parameters.vh"
+    `include "sdr_parameters.vh"
 
     parameter SEED              = 2;                        // seed for random pattern generation
-    parameter PERIOD            = `PERIOD;                	// clock period, to 7.5ns generate 133MHz system clock for SDRAM controller
-    parameter DELAY             = PERIOD/4.0;               // small time interval used in stimulus
+    parameter T_SYS             = 5;                        // system clock period
+    parameter T_SDR             = 7.5;                      // sdram clock period, to 7.5ns generate 133MHz system clock for SDRAM controller
+    parameter DELAY             = T_SYS/4.0;                // small time interval used in stimulus
     parameter TEST_NUM          = 10;                       // total random pattern numbers of test
-    parameter WAIT100           = 13333;                    // wait 100us after power-up, count 13333(0x3415) times for system clock
+    parameter WAIT100           = 13333;                    // wait 100us after power-up, count 13333(0x3415) times for sdram clock
     parameter WAIT100_WIDTH     = 15;                       // 15-bit to count 13333
-    parameter CLK_FREQ          = 133_000_000;              // system clock frequency
+    parameter CLK_FREQ          = 200_000_000;              // system clock frequency
     parameter BAUD_RATE         = 9600;                     // baud rate
     parameter D_WIDTH_UART      = 8;                        // data width for UART
-
-    reg                                 sys_clk;            // system clock
     
     
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     // instantiate
-    reg                                 sys_rst_n;          // system negative triggered reset
+    reg                                 sys_clk;            // system clock
+    reg                                 rst_n;              // negative triggered reset
     reg                                 tx_tb;              // serial packet data input from testbench
     wire                                rx_tb;              // serial packet data output to testbench
-    wire                                sdram_clk;          // SDRAM clock
+    reg                                 sdram_clk;          // SDRAM clock
     wire                                sdram_cke;          // SDRAM clock enable
     wire                                sdram_cs_n;         // SDRAM negative trigger chip select
     wire                                sdram_cas_n;        // SDRAM negative trigger column address enable
@@ -59,7 +58,7 @@ module tb_top;
         .D_WIDTH_UART(D_WIDTH_UART)
     ) inst_top(
         .sys_clk(sys_clk),
-        .sys_rst_n(sys_rst_n),
+        .rst_n(rst_n),
         .uart_rx(tx_tb),
         .uart_tx(rx_tb),
         .sdram_clk(sdram_clk),
@@ -99,7 +98,7 @@ module tb_top;
         .D_WIDTH(D_WIDTH_UART)
     ) inst_uart_rx(
         .sys_clk(sys_clk),
-        .sys_rst_n(sys_rst_n),
+        .sys_rst_n(rst_n),
         .rx(rx_tb),
         .rx_data(rx_data_tb),
         .po_flag(rx_done_tb)
@@ -107,12 +106,22 @@ module tb_top;
     
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     // generate clk
-    always #(PERIOD/2) sys_clk = ~sys_clk;
+    initial begin
+        sys_clk = 0;
+        //sys_clk = ~sys_clk;
+        forever #(T_SYS/2) sys_clk = ~sys_clk;
+    end
+    
+    initial begin
+        sdram_clk = 0;
+        //sdram_clk = ~sdram_clk;
+        forever #(T_SDR/2) sdram_clk = ~sdram_clk;
+    end
     
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     // task
     //// generate serial data packet pattern
-    localparam BAUD_CNT_MAX = (CLK_FREQ / BAUD_RATE) - 1;   // for baud_cnt to count, which is (2604 - 1) in here
+    localparam BAUD_CNT_MAX = (CLK_FREQ / BAUD_RATE) - 1;   // for baud_cnt to count, which is (20833 - 1) in here (0x5160)
     reg             [31:0]              seed;           // for random pattern generation
     integer i_task;
     integer j_task;
@@ -178,18 +187,20 @@ module tb_top;
     initial begin
         // --------------------------------------------------------------------------------------------------------------------------------------------------------
         // initialize
-        sys_clk = 0;
-        sys_rst_n = 1;
+        //sys_clk = 0;
+        //sdram_clk = 0;
+        rst_n = 1;
         tx_tb = 0;
         i = 0;
         seed = SEED;
 
+        #(T_SYS*5);
         #(DELAY);
-        sys_rst_n = 0;
+        rst_n = 0;
 
         for (i = 0 ; i < 5; i = i + 1) @(posedge sys_clk);
         #(DELAY);
-        sys_rst_n = 1;
+        rst_n = 1;
         
         // --------------------------------------------------------------------------------------------------------------------------------------------------------
 		// stimulus start
@@ -225,7 +236,7 @@ module tb_top;
         @(posedge sys_clk);
         #(DELAY);
         rand_in_gen(5); // generate 8-bit data frame READ command serial packet
-        #2_600_000;
+        #4_500_000;
  
 /*
         #10_000;
@@ -240,14 +251,15 @@ module tb_top;
         #(DELAY);
         rand_in_gen(5); // generate 8-bit data frame READ command serial packet
         
-        #2_600_000;
+        #5_000_000;
 */
         
         $finish();
     end
-
-	// -------------------------------------------------------------------------------------------------------------------------------------------------------------     
+    
+    // -------------------------------------------------------------------------------------------------------------------------------------------------------------     
 	// fsdb dump
+/*
   	initial begin
 `ifdef GATE_SIM
 		$sdf_annotate("./mapped/top_syn.sdf", inst_top);
@@ -257,6 +269,6 @@ module tb_top;
 `endif
   		$fsdbDumpvars();
 	end
-
+*/
 
 endmodule
