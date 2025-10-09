@@ -22,7 +22,8 @@ module sdram_aref(
     aref_cmd,
     sdram_addr
     );
-    
+
+    //`include "/home/m110/m110063556/interview/sdram_controller/rtl/sdr_parameters.vh"
     `include "sdr_parameters.vh"
     
     localparam  NOP = 4'b0111;                              // NOP command
