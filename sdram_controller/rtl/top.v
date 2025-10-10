@@ -139,7 +139,8 @@ module top #(
     ) inst_cmdfifo_2x8(
         .clk_a(sys_clk),
         .clk_b(sdram_clk),
-        .rst_n(sys_rst_n),
+        .rst_n_a(sys_rst_n),
+        .rst_n_b(sdram_rst_n),
         .wr_en(cmdfifo_wr_en),
         .rd_en(cmdfifo_rd_en),
         .wr_data({wr_trig, rd_trig}),
@@ -157,7 +158,8 @@ module top #(
     ) inst_wfifo_16x8(
         .clk_a(sys_clk),
         .clk_b(sdram_clk),
-        .rst_n(sys_rst_n),
+        .rst_n_a(sys_rst_n),
+        .rst_n_b(sdram_rst_n),
         .wr_en(wfifo_wr_en),
         .rd_en(wfifo_rd_en),
         .wr_data(wfifo_wr_data),
@@ -205,7 +207,8 @@ module top #(
     ) inst_rfifo_16x8(
         .clk_a(sdram_clk),
         .clk_b(sys_clk),
-        .rst_n(sys_rst_n),
+        .rst_n_a(sdram_rst_n),
+        .rst_n_b(sys_rst_n),
         .wr_en(rfifo_wr_en),
         .rd_en(rfifo_rd_en),
         .wr_data(rfifo_wr_data),
