@@ -371,7 +371,7 @@ module sdram_read(
     assign addr_out = addr_out_reg;
     assign go_aref = go_aref_reg;    
     assign data_out = data_in[7:0];
-    assign rfifo_wr_en = rfifo_wr_en_reg_t4;
+    assign rfifo_wr_en = rfifo_wr_en_reg_t4 & rfifo_wr_en_reg_t3;
     
     
 endmodule
