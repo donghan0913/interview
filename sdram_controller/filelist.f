@@ -5,6 +5,7 @@
 ./rtl/rst_synchronizer.v
 ./rtl/cmd_decode.v
 ./rtl/fifo_async.v
+./rtl/fifo_async_btog_cvtr.v
 ./rtl/uart_rx.v
 ./rtl/uart_tx.v
 ./rtl/sdram_top.v
