@@ -12,11 +12,11 @@ DC = dc_shell -f script/run_top.tcl | tee -i dc.log
 #-------------------------------------------------------------------------------------------------------------------------------------------#
 ## RTL simulation
 rsim:
-	$(VCS) -sverilog -f $(RTL_SIM_FILE) +define+PERIOD=7.5 +define+sg75 +define+den128Mb +define+x16 -l run_rtl.log
+	$(VCS) -sverilog -f $(RTL_SIM_FILE) +define+PERIOD=5 +define+sg75 +define+den128Mb +define+x16 +define+AFIFO -l run_rtl.log
 
 ## verdi gui
 verdi_rtl:
-	$(VERDI_RTL)
+	$(VERDI_RTL) &
 
 ## clean database
 clean:
@@ -29,11 +29,11 @@ dc:
 
 ## Gate-Level simulation
 gsim:
-	$(VCS) -f $(GATE_SIM_FILE) +define+GATE_SIM +define+PERIOD=7.5 -v /home/m110/m110061576/process/CBDK_TSMC90GUTM_Arm_f1.0/orig_lib/aci/sc-x/verilog/tsmc090.v -l run_gate.log
+	$(VCS) -f $(GATE_SIM_FILE) +define+GATE_SIM +define+PERIOD=5 -v /home/m110/m110061576/process/CBDK_TSMC90GUTM_Arm_f1.0/orig_lib/aci/sc-x/verilog/tsmc090.v -l run_gate.log
 
 ## verdi gui
 verdi_gate:
-	$(VERDI_GATE)
+	$(VERDI_GATE) &
 
 #------------------------------------------------------------------------------------------------------------------------------------------#
 ## DATA_NUM for test patterns in each test, TEST_NUM for test number
