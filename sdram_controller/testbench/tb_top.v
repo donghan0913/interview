@@ -19,10 +19,11 @@
 
 module tb_top;
 
-    `include "sdr_parameters.vh"
+    	`include "/home/m110/m110063556/interview/sdram_controller_w_cdc/rtl/sdr_parameters.vh"
+	//`include "sdr_parameters.vh"
 
     parameter SEED              = 2;                        // seed for random pattern generation
-    parameter T_SYS             = 5;                        // system clock period
+    parameter T_SYS             = `PERIOD;                  // system clock period
     parameter T_SDR             = 7.5;                      // sdram clock period, to 7.5ns generate 133MHz system clock for SDRAM controller
     parameter DELAY             = T_SYS/4.0;                // small time interval used in stimulus
     parameter TEST_NUM          = 10;                       // total random pattern numbers of test
@@ -190,7 +191,7 @@ module tb_top;
         //sys_clk = 0;
         //sdram_clk = 0;
         rst_n = 1;
-        tx_tb = 0;
+        tx_tb = 1;
         i = 0;
         seed = SEED;
 
@@ -198,7 +199,7 @@ module tb_top;
         #(DELAY);
         rst_n = 0;
 
-        for (i = 0 ; i < 5; i = i + 1) @(posedge sys_clk);
+        for (i = 0 ; i < 10; i = i + 1) @(posedge sdram_clk);
         #(DELAY);
         rst_n = 1;
         
@@ -227,6 +228,7 @@ module tb_top;
         
         #10_000;
         //// 1st test write, write data & address directly given from SDRAM controller before FIFO design finish
+        @(posedge sys_clk);
         for (i = 0 ; i < 5; i = i + 1) begin
             rand_in_gen(i);
         end
@@ -259,7 +261,6 @@ module tb_top;
     
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------     
 	// fsdb dump
-/*
   	initial begin
 `ifdef GATE_SIM
 		$sdf_annotate("./mapped/top_syn.sdf", inst_top);
@@ -269,6 +270,6 @@ module tb_top;
 `endif
   		$fsdbDumpvars();
 	end
-*/
+
 
 endmodule
