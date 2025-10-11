@@ -1,6 +1,12 @@
 remove_sdc
 
 create_clock -period $PERIOD [get_ports sys_clk]
+create_clock -period 7.5 [get_ports sdram_clk]
+
+#set_output_delay -max 1.5 -clock sdram_clk [get_ports {sdram_cke sdram_cs_n sdram_cas_n sdram_ras_n sdram_we_n sdram_addr}]
+#set_output_delay -min -0.8 -clock sdram_clk [get_ports {sdram_cke sdram_cs_n sdram_cas_n sdram_ras_n sdram_we_n sdram_addr}]
 
 set_drive 1 {uart_rx sdram_dq}
 set_load [load_of slow/CLKBUFX20/A] [all_outputs]
+
+set_clock_groups -asynchronous -group sys_clk -group sdram_clk
