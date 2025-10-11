@@ -18,7 +18,7 @@
 
 
 module uart_rx #(
-    parameter CLK_FREQ = 133_000_000,                       // reciever part system clock frequency
+    parameter CLK_FREQ = 200_000_000,                       // reciever part system clock frequency
     parameter BAUD_RATE = 9600,                             // baud rate
     parameter D_WIDTH = 8                                   // width of data frame
 ) (
@@ -35,7 +35,7 @@ module uart_rx #(
     localparam BAUD_CNT_MAX = 10 - 1;                       // for baud_cnt to count, simulation only
     localparam BAUD_CNT_MID = BAUD_CNT_MAX / 2;             // for baud_cnt to count middle, simulation only
 `else
-    localparam BAUD_CNT_MAX = (CLK_FREQ / BAUD_RATE) - 1;   // for baud_cnt to count, which is (13855 - 1) in here
+    localparam BAUD_CNT_MAX = (CLK_FREQ / BAUD_RATE) - 1;   // for baud_cnt to count, which is (20833 - 1) in here (0x5160)
     localparam BAUD_CNT_MID = BAUD_CNT_MAX / 2;             // for baud_cnt to count middle
 `endif
     
@@ -59,17 +59,17 @@ module uart_rx #(
     reg     [D_WIDTH:0]             bit_cnt;                // data frame counter
     
     always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) rx_r1 <= 0;  
+        if (~sys_rst_n) rx_r1 <= 1;  
         else            rx_r1 <= rx;    
     end
     
     always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) rx_r2 <= 0;
+        if (~sys_rst_n) rx_r2 <= 1;
         else            rx_r2 <= rx_r1;    
     end
     
     always @(posedge sys_clk, negedge sys_rst_n) begin
-        if (~sys_rst_n) rx_r3 <= 0;
+        if (~sys_rst_n) rx_r3 <= 1;
         else            rx_r3 <= rx_r2;    
     end
     
