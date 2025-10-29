@@ -45,7 +45,7 @@ set_clock_gating_style -designs $design_pip \
   -negative_edge_logic or \
   -setup $cg_setup -hold $cg_hold \
   -minimum_bitwidth 16 \
-  -max_fanout 64 \
+  -max_fanout 256 \
   -control_point before
 
 # /* Compile */
