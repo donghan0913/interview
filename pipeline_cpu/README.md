@@ -9,7 +9,8 @@
 
 * Block diagram
 
-  <img src="https://github.com/user-attachments/assets/3f6e6c8c-255f-4560-a956-14d16134e6cc" width="100%" height="100%">
+  <img src="https://github.com/user-attachments/assets/ccd9c6e1-3b66-4fb2-991a-9fc2fdff4736" width="100%" height="100%">
+
 
 * Test data
 
@@ -19,9 +20,8 @@
 
 
 ## Simulation Result
-<img src="https://github.com/user-attachments/assets/2fb9090e-07d3-41a5-b208-03b903a6dc02" width="100%" height="100%">
+<img src="https://github.com/user-attachments/assets/284a9cc7-daf9-4054-82d2-a1e5535105d3" width="100%" height="100%">
 
- * `pc_addr` is PC counter address, which can be used to check the answer.
 
 ## 
 
