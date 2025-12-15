@@ -18,6 +18,10 @@
   <img src="https://github.com/user-attachments/assets/2905f874-7b9e-4e09-a21b-433483f6d3af" width="35%" height="35%">
 
 
+* Makefile guide :
+  * `rsim` : 
+
+
 
 ## Simulation Result
 <img src="https://github.com/user-attachments/assets/284a9cc7-daf9-4054-82d2-a1e5535105d3" width="100%" height="100%">
