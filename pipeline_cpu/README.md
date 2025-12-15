@@ -25,7 +25,7 @@
   * `dc` : Synthesis for pipeline CPU with single stage multiplier
   * `dc_multpip` : Synthesis for pipeline CPU with two stage multiplier
   * `dc_lp` : Synthesis for pipeline CPU with two stage multiplier and data gating and clock gating
-  * `dft_lp` , `atpg` : Fail, ignore
+  * `dft_lp` , `atpg` : Unfinished, ignored
 
 
 ## Simulation Result
