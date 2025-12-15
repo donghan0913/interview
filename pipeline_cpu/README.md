@@ -19,8 +19,13 @@
 
 
 * Makefile guide :
-  * `rsim` : 
-
+  * `rsim` : RTL simulation for pipeline CPU with single stage multiplier
+  * `rsim_multpip` : RTL simulation for pipeline CPU with two stage multiplier
+  * `rsim_lp` : RTL simulation for pipeline CPU with two stage multiplier and data gating
+  * `dc` : Synthesis for pipeline CPU with single stage multiplier
+  * `dc_multpip` : Synthesis for pipeline CPU with two stage multiplier
+  * `dc_lp` : Synthesis for pipeline CPU with two stage multiplier and data gating and clock gating
+  * `dft_lp` , `atpg` : Fail, ignore
 
 
 ## Simulation Result
