@@ -11,6 +11,18 @@
     * <↑, 1/0> , <↓, 1/0> : Aggressor cell at 6’b010_001 ; Victim cell at 6’b010_010
     * <↑, 0/1> , <↓, 0/1> : Aggressor cell at 6’b000_110 ; Victim cell at 6’b000_111
 
+* Makefile guide:
+  * `rsim_func` : Memory functional mode test with faults
+  * `rsim_ckr` : MBIST checkerboard test
+  * `rsim_mar_c_sub` : MBIST March C- test
+  * `rsim_mar_c_sub_lp` : MBIST March C- w/ low power LFSR address generator test
+  * `rsim_mar_x` : MBIST March X test
+  * `rsim_mar_x_lp` : MBIST March X w/ low power LFSR address generator test
+  * `dft` : Do DFT scan chain insertion to MBIST March C-
+  * `dft_lp` : Do DFT scan chain insertion to MBIST March C- w/ low power LFSR address generator
+  * `atpg` : Run ATPG stuck-at test for MBIST March C-
+  * `atpg_all` : Run ATPG fulsh/stuck-at/delay test for MBIST March C-
+
 
 ## Simulation Result
 * Checkerboard:
