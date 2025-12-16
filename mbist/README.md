@@ -11,6 +11,7 @@
     * <↑, 1/0> , <↓, 1/0> : Aggressor cell at 6’b010_001 ; Victim cell at 6’b010_010
     * <↑, 0/1> , <↓, 0/1> : Aggressor cell at 6’b000_110 ; Victim cell at 6’b000_111
 
+
 ## Simulation Result
 * Checkerboard:
   * Concept:
@@ -50,29 +51,38 @@
 ## Low Power Design
 * Concept: Replace binary counter with low power clock controlled LFSR[1] for address generator.
 
+  <img src="https://github.com/user-attachments/assets/01bf3645-6cd6-4af9-85cd-b1d8e006796e" width="100%" height="100%">
+  <br><br>
   <img src="https://github.com/user-attachments/assets/526f4f79-db71-4802-9b8a-cb14c96a679d" width="100%" height="100%">
 
 * Low power LFSR address generator MBIST:
   * Address generation:
 
     <img src="https://github.com/user-attachments/assets/ffff90d9-7336-47c6-a34f-3a8107d271f4" width="100%" height="100%">
-
   
   * Low power March X MBIST:
 
     <img src="https://github.com/user-attachments/assets/cfe323a1-d037-4ffc-9b92-a34f3656610c" width="100%" height="100%">
 
-
   * Low power March C- MBIST:
 
     <img src="https://github.com/user-attachments/assets/5a8c65f3-5dc3-43a1-9c89-b2c9894d8f2a" width="100%" height="100%">
 
+
 ## Result comparison
 
-  <img src="https://github.com/user-attachments/assets/0770924b-acca-4849-a172-cf6e23d832fe" width="50%" height="50%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/user-attachments/assets/063809cc-644a-4093-83be-79b1016b17fa" width="40%" height="40%">
-  <br />
-  <br />
-  <img src="https://github.com/user-attachments/assets/bd682566-0c50-4721-990c-f7dbd2bbf8cf" width="60%" height="60%">
+  <img src="https://github.com/user-attachments/assets/0770924b-acca-4849-a172-cf6e23d832fe" width="50%" height="50%">
+  <br><br>
+  <img src="https://github.com/user-attachments/assets/e83799c7-190c-44de-ac63-49d6ee58f4ad" width="40%" height="40%">
+  <br><br>
+  <img src="https://github.com/user-attachments/assets/e545a269-362d-44be-9c61-2562cc5ba4c6" width="60%" height="60%">
+
+
+## DFT & ATPG
+
+  <img src="https://github.com/user-attachments/assets/8219efb7-0c2e-4d28-b88d-7052d764803a" width="65%" height="65%">
+  <br><br>
+  <img src="https://github.com/user-attachments/assets/7c70b8b4-cff6-4cdd-9f47-acccb13ec5da" width="75%" height="75%">
 
 
 ## Reference
