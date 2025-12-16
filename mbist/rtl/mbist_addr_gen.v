@@ -28,9 +28,11 @@
 module mbist_addr_gen #(
     parameter ADDR = 8                                      // width of {row addr, col addr}
 ) (
-    clk,
+    clk,    
+`ifdef LOPOW_ADDR_GEN
     clk_1,
     clk_2,
+`endif
     rst_n,
     addr_en,
     addr_ff,
@@ -44,8 +46,10 @@ module mbist_addr_gen #(
     localparam COL_MAX          = (2 ** COL_ADDR) - 1;      // column max
     
     input                           clk;                    // clock
+`ifdef LOPOW_ADDR_GEN
     input                           clk_1;                  // clock 1 for CLFSR
     input                           clk_2;                  // clock 2 for modified-LFSR
+`endif
     input                           rst_n;                  // reset
 `ifdef CHECKERBOARD
     input                           addr_en;                // enable address generator
@@ -97,7 +101,7 @@ module mbist_addr_gen #(
     wire    [ADDR_CLFSR:1]          cff_q_next;             // (n-2)-bit CLFSR flip-flop D
     wire    [ADDR_CLFSR-2:1]        net_or;                 // 
     wire    [ADDR_CLFSR-1:1]        net_xor;                // 
-    wire    [ADDR_CLFSR:1]        B;                   // 
+    wire    [ADDR_CLFSR:1]          B;                      // 
 
     always @(posedge clk_1, negedge rst_n) begin
         if (~rst_n)     cff_q <= {ADDR_CLFSR{1'b1}};
@@ -126,7 +130,7 @@ module mbist_addr_gen #(
     // 2-bit modified LFSR
     reg     [2:1]                   mff_q;                  // 2-bit modified-LFSR flip-flop Q
     wire    [2:1]                   mff_q_next;             // 2-bit modified-LFSR flip-flop D
-    
+
     always @(posedge clk_2, negedge rst_n) begin
         if (~rst_n)     mff_q <= {2{1'b1}};
         else if (addr_en[1] == 0) begin
@@ -143,7 +147,7 @@ module mbist_addr_gen #(
 
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     // output Logic
-	localparam ADDR_END_UP = 6'b111_101;
+    localparam ADDR_END_UP = 6'b111_101;
     localparam ADDR_END_DOWN = 6'b000_010;
     reg                             addr_done_reg;          //
 
@@ -160,11 +164,12 @@ module mbist_addr_gen #(
             end
             else        addr_done_reg = 0;
         end
-    end   
- 
+    end
+    
     assign addr = (addr_en[0] == 0) ? {cff_q, mff_q} : ~{cff_q, mff_q};
                     
     assign addr_done = addr_done_reg;
+    
 
 `ifdef SIM
     reg [63:0]  lfsr_chk [0:5];
