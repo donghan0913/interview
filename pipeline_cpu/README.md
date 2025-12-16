@@ -8,8 +8,13 @@
 
 
 * Block diagram
+  * Complete CPU:
 
-  <img src="https://github.com/user-attachments/assets/ccd9c6e1-3b66-4fb2-991a-9fc2fdff4736" width="100%" height="100%">
+    <img src="https://github.com/user-attachments/assets/ccd9c6e1-3b66-4fb2-991a-9fc2fdff4736" width="100%" height="100%">
+
+  * Multiplier:
+
+    <img src="https://github.com/user-attachments/assets/556511f8-91b7-43ea-a399-68bc9d17d454" width="55%" height="55%">
 
 
 * Test data
@@ -29,13 +34,29 @@
 
 
 ## Simulation Result
-<img src="https://github.com/user-attachments/assets/284a9cc7-daf9-4054-82d2-a1e5535105d3" width="100%" height="100%">
+* Waveform of pipeline CPU w/o multiplier:
+
+  <img src="https://github.com/user-attachments/assets/7084f57c-f644-4c41-b22b-22f8557938c7" width="100%" height="100%">
+
+* Waveform of pipeline CPU w/ 2-stage multiplier:
+
+  <img src="https://github.com/user-attachments/assets/284a9cc7-daf9-4054-82d2-a1e5535105d3" width="100%" height="100%">
+
+* Waveform of pipeline CPU after data gating:
+
+  <img src="https://github.com/user-attachments/assets/ebda27a3-f8dd-47fa-8db8-f8f60791acea" width="100%" height="100%">
 
 
-## 
+## Synthesis result
+* Pipeline CPU w/ multiplier synthesis report:
 
+  <img src="https://github.com/user-attachments/assets/a3c69bf4-0d94-4527-9686-7790aacede10" width="50%" height="50%">
 
-## Summary
-<img src="https://github.com/user-attachments/assets/d4efda87-042d-4697-8c02-bef21e1b96e4" width="40%" height="40%">
+* Pipeline CPU after clock gating:
+
+  <img src="https://github.com/user-attachments/assets/72b851a5-ff2c-4e17-803a-5f0fbd110a1e" width="40%" height="40%">
+  &nbsp;&nbsp;
+  <img src="https://github.com/user-attachments/assets/d1fa90f7-1de4-41c9-8553-19fcdd232be6" width="50%" height="50%">
+
 
 
