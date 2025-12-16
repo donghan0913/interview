@@ -2,34 +2,37 @@
 ## Introduction
 * Overview: Use Verilog and Design Compiler to design a simple SDRAM controller with UART interface including Initialize, Auto-Refresh, Read and Write functions from RTL to Synthesis.
 
-  <img src="https://github.com/user-attachments/assets/b82b129f-8d2f-458c-b5b3-9959a897dedb" width="100%" height="100%">
+  <img src="https://github.com/user-attachments/assets/d6bed02f-83f0-4be1-bbee-7be64dbefce1" width="100%" height="100%">
 
-  * Modules:
-    1. SDRAM Model: Micron 32 Meg x 4 x16 SDRAM
-        * Clock: 133 MHz (7.5 ns)
+  * Spec. and external circuits:
+    1. System clock: 200 MHz (5ns)
+    2. SDRAM Model: Micron 32 Meg x 4 x16 SDRAM
+        * Sdram clock: 133 MHz (7.5 ns)
         * Row address: 12-bit; Column address: 9-bit
-    2. UART TX/RX:
-        * 11-bit data packet (1 start bit, 8-bit data frame, 2 stop bits)
+    3. UART TX/RX:
+        * 11-bit data packet w/o parity bit (1 start bit, 8-bit data frame, 2 stop bits)
         * Baud rate: 9600 bit/s
-    3. Synchronous FIFO: For wFIFO & rFIFO
-        * Width: 16-bit
+    4. R/W/CMD asynchronous FIFO:
         * Depth: 8-bit
-    4. Command decoder: Decoding required commands & enable signals for SDRAM controller and wFIFO
-    5. SDRAM_TOP: SDRAM controller with Initialize, Auto-Refresh, Read and Write function sub-modules
+    6. Command decoder: Decoding required commands & enable signals for SDRAM controller and wFIFO and cmdFIFO
+    7. SDRAM_TOP: SDRAM controller with Initialize, Auto-Refresh, Read and Write function sub-modules
+    8. Reset synchronizer
 
 
 ## Simulation Result
-* UART TX/RX:
+* UART RX:
 
-  <img src="https://github.com/user-attachments/assets/67daecf7-8ec4-4c11-8d6f-334035caad35" width="100%" height="100%">
+  <img src="https://github.com/user-attachments/assets/f6133cf4-e84d-48bb-8d4c-148e3359dfdc" width="100%" height="100%">
 
 * Command decoder:
 
-  <img src="https://github.com/user-attachments/assets/80f9d69a-bc16-4584-a243-2769b5ff9308" width="50%" height="50%">
+  <img src="https://github.com/user-attachments/assets/f0897521-b97c-4827-a29a-b613ebd0795e" width="100%" height="100%">
 
-* Synchronous FIFO:
+* CMD/W FIFO:
 
-  <img src="https://github.com/user-attachments/assets/d27f359a-d0db-45a6-bad9-37ef46669d28" width="70%" height="70%">
+  <img src="https://github.com/user-attachments/assets/cd06d1e6-d25b-47a3-8850-0e82ff809902" width="80%" height="80%">
+  <br><br>
+  <img src="https://github.com/user-attachments/assets/37a98163-82d0-4193-9a4a-688b024a63d8" width="80%" height="80%">
 
 * SDRAM Controller Initialize:
   * Timing diagram:
@@ -56,10 +59,11 @@
 
     <img src="https://github.com/user-attachments/assets/f7d40897-85c1-4822-abda-177fabe960d6" width="70%" height="70%">
 
-
   * Simulation result:
 
     <img src="https://github.com/user-attachments/assets/79ec2d41-9f7c-41f5-949b-e7d9ee7eda22" width="80%" height="80%">
+    <br><br>
+    <img src="https://github.com/user-attachments/assets/7fd6f4d4-dde1-43a5-a858-8e9189aed2e8" width="90%" height="90%">
 
 * SDRAM Controller Read w/o Auto-Precharge:
   * Timing diagram:
@@ -69,14 +73,29 @@
   * Simulation result:
 
     <img src="https://github.com/user-attachments/assets/42b390c0-c2ce-43cb-a923-ea5a49ff046d" width="80%" height="80%">
+    <br><br>
+    <img src="https://github.com/user-attachments/assets/eafe4d6b-4ed4-4a1d-af9d-9181f500961d" width=90%" height="90%">
+
+* R FIFO:
+
+  <img src="https://github.com/user-attachments/assets/f8b1c26b-2818-4357-b5d6-8cb7f70f7d19" width="80%" height="80%">
+
+* UART TX:
+
+  <img src="https://github.com/user-attachments/assets/9c9fe9d3-525e-48f6-9dac-b3bb7d92774f" width="70%" height="70%">
 
 * Complete SDRAM Controller with UART interface:
 
-  <img src="https://github.com/user-attachments/assets/756a06f0-2cb4-4f5b-b6e0-acbc8701766c" width="70%" height="70%"><br /><br /><img src="https://github.com/user-attachments/assets/4a615f04-1447-45e2-a81b-93dc49363144" width="100%" height="100%">
+  <img src="https://github.com/user-attachments/assets/756a06f0-2cb4-4f5b-b6e0-acbc8701766c" width="70%" height="70%">
+  <br /><br />
+  <img src="https://github.com/user-attachments/assets/96902f5b-508d-4af7-a93e-24eb7d573a8f" width="100%" height="100%">
 
 * Synthesis and gate-level simulation:
 
-  <img src="https://github.com/user-attachments/assets/d85274e4-12a7-467f-be9b-5267a235587c" width="100%" height="100%">
+  <img src="https://github.com/user-attachments/assets/fc199b8a-57ef-4070-b0b9-0a4552854134" width="30%" height="30%">
+  <br><br>
+  <img src="https://github.com/user-attachments/assets/23cde526-1370-4f67-96d0-a3ab9754c75c" width="100%" height="100%">
+
 
 
 ## Reference
