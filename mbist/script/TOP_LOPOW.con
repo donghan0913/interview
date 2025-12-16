@@ -1,8 +1,14 @@
 remove_sdc
 
 create_clock -period $PERIOD [get_ports clk]
-create_clock -period $PERIOD [get_ports clk_1]
-create_clock -period $PERIOD [get_ports clk_2]
+#create_clock -period $PERIOD [get_ports clk_1]
+#create_clock -period $PERIOD [get_ports clk_2]
+
+set_case_analysis 0 [get_ports test_mode]
+
+create_generated_clock -name CLK_DIV2 -source [get_ports clk] -divide_by 2 [get_pins inst_clk_gen/clk_div2_reg/Q]
+create_generated_clock -name CLK1 -source [get_ports clk] -divide_by 1 [get_pins inst_clk_gen/clk_1]
+create_generated_clock -name CLK2 -source [get_ports clk] -divide_by 1 [get_pins inst_clk_gen/clk_2]
 
 #set_clock_groups -asynchronous -group clk -group [list clk_1 clk_2]
 
