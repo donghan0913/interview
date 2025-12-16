@@ -1,7 +1,7 @@
 source .synopsys_dc.setup
 
 define_design_lib WORK -path ./work
-set PERIOD 0.8
+set PERIOD 0.78
 
 # /* Read Verilog files */
 analyze ./rtl -autoread -format verilog -define {MARCH_C_SUB}
@@ -31,6 +31,7 @@ check_design
 report_area > ./report/mbist_syn_march_c_sub.report
 report_timing -path full -delay max >> ./report/mbist_syn_march_c_sub.report
 report_power >> ./report/mbist_syn_march_c_sub.report
+report_power -analysis_effort medium -hierarchy -nosplit >> ./report/mbist_syn_march_c_sub.report
 report_cell > ./report/mbist_syn_cell_march_c_sub.report
 
 # /* Write out netlist */
