@@ -1,7 +1,7 @@
 source .synopsys_dc.setup
 
 define_design_lib WORK -path ./work
-set PERIOD 0.8
+set PERIOD 0.78
 
 # /* Read Verilog files */
 analyze ./rtl -autoread -format verilog -define {MARCH_X}
