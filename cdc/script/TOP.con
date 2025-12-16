@@ -1,1 +1,11 @@
+remove_sdc
+
+create_clock -period $PERIOD_SRC [get_ports clk_src]
+create_clock -period $PERIOD_DST [get_ports clk_dst]
+
+set_drive 1 {d_in}
+set_load [load_of slow/CLKBUFX20/A] [all_outputs]
+
+set_clock_groups -asynchronous -group clk_src -group clk_dst
+
 
