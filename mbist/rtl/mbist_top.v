@@ -22,14 +22,18 @@
 //`define MARCH_C_SUB
 //`define MARCH_X
 //`define LOPOW_ADDR_GEN
+//`define SIM
 
 
 module mbist_top #(
     parameter ADDR = 6                                      // width of {row addr, col addr}
 ) (
     clk,
-    clk_1,
-    clk_2,
+    //clk_1,
+    //clk_2,
+`ifdef LOPOW_ADDR_GEN
+    test_mode,
+`endif
     rst_n,
     mode,
     mem_d_out,
@@ -43,8 +47,11 @@ module mbist_top #(
     );
     
     input                           clk;                    // clock
-    input                           clk_1;                  // clock 1 for CLFSR
-    input                           clk_2;                  // clock 2 for modified-LFSR   
+    //input                           clk_1;                  // clock 1 for CLFSR
+    //input                           clk_2;                  // clock 2 for modified-LFSR  
+`ifdef LOPOW_ADDR_GEN
+    input                           test_mode; 
+`endif
     input                           rst_n;                  // reset
     input                           mode;                   // functional mode or test mode
     input                           mem_d_out;              // data output from memory
@@ -69,6 +76,11 @@ module mbist_top #(
 `endif    
     wire                          	addr_ff;                // set address to MAX at the beginning of the down counting
     wire    [1:0]                   pattern_en;
+`ifdef LOPOW_ADDR_GEN  
+    wire                            clk_1;
+    wire                            clk_2;
+`endif    
+    
     mbist_fsm #(
         .ADDR(ADDR)
     ) inst_fsm(
@@ -93,8 +105,10 @@ module mbist_top #(
         .ADDR(ADDR)
     ) inst_addr_gen(
         .clk(clk),
+`ifdef LOPOW_ADDR_GEN        
         .clk_1(clk_1),
         .clk_2(clk_2),
+`endif
         .rst_n(rst_n),
         .addr_en(addr_en),
         .addr_ff(addr_ff),
@@ -109,6 +123,17 @@ module mbist_top #(
         .addr(addr),
         .pattern(pattern)
         ); 
+
+`ifdef LOPOW_ADDR_GEN    
+    clk_gen inst_clk_gen(
+        .clk(clk),
+        .rst_n(rst_n),
+        .test_mode(test_mode),
+        .clk_1(clk_1),
+        .clk_2(clk_2)
+        );
+`endif
+  
     
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     // output assignment
