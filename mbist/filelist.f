@@ -6,3 +6,4 @@
 ./rtl/mbist_fsm.v
 ./rtl/mbist_addr_gen.v
 ./rtl/mbist_pattern_gen.v
+./rtl/clk_gen.v
