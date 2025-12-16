@@ -59,6 +59,9 @@ module tb_top;
     reg     [ADDR-1:0]                  addr_tb;            // address {row addr, col addr}
     
     reg                                 rst_n;
+`ifdef LOPOW_ADDR_GEN
+    reg                                 test_mode;
+`endif
     wire                                we_bist;            // write enable
     wire                                oe_bist;            // write enable
     wire                                cs_bist;            // write enable
@@ -91,9 +94,12 @@ module tb_top;
         .ADDR(ADDR)
     ) inst_top(
         .clk(clk),
-        .clk_1(clk_1),
-        .clk_2(clk_2),
+        //.clk_1(clk_1),
+        //.clk_2(clk_2),
         .rst_n(rst_n),
+`ifdef LOPOW_ADDR_GEN
+        .test_mode(test_mode),
+`endif
         .mode(mode),
         .mem_d_out(d_out),
         .mem_addr(addr_bist),
@@ -104,7 +110,8 @@ module tb_top;
         .fault_flag(fault_flag),
         .bist_done(bist_done)
         );        
-    
+
+/*    
     //// clock 1 & clock 2 generator
 `ifdef LOPOW_ADDR_GEN   
     clk1_gen #(
@@ -127,7 +134,7 @@ module tb_top;
         .clk_div_num(clk_2)
         );
 `endif
-    
+*/    
     
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     // generate clk
@@ -143,6 +150,9 @@ module tb_top;
         // initialize
         clk = 0;
         rst_n = 1;
+`ifdef LOPOW_ADDR_GEN
+        test_mode = 0;
+`endif        
         we_tb = 0;
         oe_tb = 0;
         cs_tb = 0;
